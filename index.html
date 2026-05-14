@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AeroScan</title>
+
+<link rel="stylesheet" href="styles.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">AeroScan</div>
+
+<div class="nav">
+
+<button onclick="changeView('superior')">SUPERIOR</button>
+<button onclick="changeView('izquierdo')">PERFIL IZQ</button>
+<button onclick="changeView('derecho')">PERFIL DER</button>
+<button onclick="changeView('frontal')">FRONTAL</button>
+<button onclick="changeView('trasera')">TRASERA</button>
+
+</div>
+
+</header>
+
+<div class="main">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="section-title">TIPO DE DAÑO</div>
+
+<div class="grid-buttons">
+
+<button class="damage-btn" onclick="selectDamage(this,'Grieta')">GRIETA</button>
+<button class="damage-btn" onclick="selectDamage(this,'Abolladura')">ABOLLADURA</button>
+<button class="damage-btn" onclick="selectDamage(this,'Corrosión')">CORROSIÓN</button>
+<button class="damage-btn" onclick="selectDamage(this,'Fractura')">FRACTURA</button>
+<button class="damage-btn" onclick="selectDamage(this,'Delaminación')">DELAM.</button>
+<button class="damage-btn" onclick="selectDamage(this,'Rayadura')">RAYADURA</button>
+
+</div>
+
+<div class="section-title">SEVERIDAD</div>
+
+<div class="grid-buttons">
+
+<button class="severity-btn" onclick="selectSeverity(this,'Leve')">LEVE</button>
+<button class="severity-btn" onclick="selectSeverity(this,'Moderado')">MODERADO</button>
+<button class="severity-btn" onclick="selectSeverity(this,'Severo')">SEVERO</button>
+<button class="severity-btn" onclick="selectSeverity(this,'Crítico')">CRÍTICO</button>
+
+</div>
+
+</div>
+
+<!-- CENTRO -->
+
+<div class="center">
+
+<div class="image-container">
+
+<img id="aircraftView" class="aircraft-image" src="superior.png">
+
+<div class="zone" style="top:40px; left:450px; width:100px; height:100px;"
+onclick="openModal('Nariz')"></div>
+
+<div class="zone" style="top:280px; left:120px; width:220px; height:120px;"
+onclick="openModal('Ala Izquierda')"></div>
+
+<div class="zone" style="top:280px; right:120px; width:220px; height:120px;"
+onclick="openModal('Ala Derecha')"></div>
+
+<div class="zone" style="top:180px; left:420px; width:150px; height:420px;"
+onclick="openModal('Fuselaje')"></div>
+
+<div class="zone" style="bottom:20px; left:420px; width:180px; height:120px;"
+onclick="openModal('Cola')"></div>
+
+</div>
+
+</div>
+
+<!-- DERECHA -->
+
+<div class="rightbar">
+
+<div class="section-title">REPORTES PASADOS</div>
+
+<div id="reports"></div>
+
+<button class="pdf-btn" onclick="generatePDF()">GENERAR PDF</button>
+
+</div>
+
+</div>
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+<div class="modal-content">
+
+<h2>Registrar Incidencia</h2>
+
+<input type="text" id="zoneInput" readonly>
+
+<input type="text" id="sizeInput" placeholder="Tamaño del daño">
+
+<textarea id="notesInput" rows="5" placeholder="Notas del inspector"></textarea>
+
+<div class="modal-buttons">
+
+<button class="cancel-btn" onclick="closeModal()">Cancelar</button>
+
+<button class="save-btn" onclick="saveReport()">Guardar</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
