@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AeroScan</title>
+
+  <link rel="stylesheet" href="styles.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- PANTALLA INICIAL -->
+  <div id="inicio" class="inicio-screen">
+
+    <div class="inicio-box">
+      <h1>AeroScan</h1>
+
+      <div class="campo">
+        <label>Matrícula</label>
+        <input type="text" id="matricula" placeholder="Ej. XA-ABC">
+      </div>
+
+      <div class="campo">
+        <label>Fecha de revisión</label>
+        <input type="date" id="fecha">
+      </div>
+
+      <div class="campo">
+        <label>Tipo de aeronave</label>
+        <input type="text" id="tipoAeronave" placeholder="Ej. Boeing 737">
+      </div>
+
+      <button onclick="iniciarSistema()">INICIAR INSPECCIÓN</button>
+    </div>
+
+  </div>
+
+  <!-- SISTEMA -->
+  <div id="app" class="hidden">
+
+    <!-- HEADER -->
+    <header>
+
+      <div class="logo">
+        AeroScan
+      </div>
+
+      <div class="vistas">
+
+        <button class="vista-btn active"
+          onclick="cambiarVista('superior', this)">
+          SUPERIOR
+        </button>
+
+        <button class="vista-btn"
+          onclick="cambiarVista('perfil', this)">
+          PERFIL
+        </button>
+
+        <button class="vista-btn"
+          onclick="cambiarVista('frontal', this)">
+          FRONTAL
+        </button>
+
+        <button class="vista-btn"
+          onclick="cambiarVista('trasera', this)">
+          TRASERA
+        </button>
+
+      </div>
+
+    </header>
+
+    <!-- CONTENIDO -->
+    <main>
+
+      <!-- PANEL IZQUIERDO -->
+      <aside class="left-panel">
+
+        <h2>TIPO DE DAÑO</h2>
+
+        <div class="grid-botones">
+
+          <button class="damage-btn"
+            onclick="seleccionarDanio(this,'Grieta')">
+            GRIETA
+          </button>
+
+          <button class="damage-btn"
+            onclick="seleccionarDanio(this,'Abolladura')">
+            ABOLLADURA
+          </button>
+
+          <button class="damage-btn"
+            onclick="seleccionarDanio(this,'Corrosión')">
+            CORROSIÓN
+          </button>
+
+          <button class="damage-btn"
+            onclick="seleccionarDanio(this,'Fractura')">
+            FRACTURA
+          </button>
+
+          <button class="damage-btn"
+            onclick="seleccionarDanio(this,'Delaminación')">
+            DELAM.
+          </button>
+
+          <button class="damage-btn"
+            onclick="seleccionarDanio(this,'Rayadura')">
+            RAYADURA
+          </button>
+
+        </div>
+
+        <h2>SEVERIDAD</h2>
+
+        <div class="severidad-lista">
+
+          <button class="severity-btn"
+            onclick="seleccionarSeveridad(this,'Leve')">
+            LEVE
+          </button>
+
+          <button class="severity-btn"
+            onclick="seleccionarSeveridad(this,'Moderado')">
+            MODERADO
+          </button>
+
+          <button class="severity-btn"
+            onclick="seleccionarSeveridad(this,'Severo')">
+            SEVERO
+          </button>
+
+          <button class="severity-btn"
+            onclick="seleccionarSeveridad(this,'Crítico')">
+            CRÍTICO
+          </button>
+
+        </div>
+
+        <h2>ZONAS</h2>
+
+        <div class="zonas">
+
+          <div class="zona-item">
+            Fuselaje
+            <span id="contador-fuselaje">0</span>
+          </div>
+
+          <div class="zona-item">
+            Ala Izq.
+            <span id="contador-ala-izq">0</span>
+          </div>
+
+          <div class="zona-item">
+            Ala Der.
+            <span id="contador-ala-der">0</span>
+          </div>
+
+          <div class="zona-item">
+            Nariz
+            <span id="contador-nariz">0</span>
+          </div>
+
+          <div class="zona-item">
+            Cola
+            <span id="contador-cola">0</span>
+          </div>
+
+          <div class="zona-item">
+            Motor
+            <span id="contador-motor">0</span>
+          </div>
+
+        </div>
+
+      </aside>
+
+      <!-- CENTRO -->
+      <section class="centro">
+
+        <div class="canvas-box">
+
+          <img id="imagenAeronave"
+            src="superior.png"
+            alt="aeronave">
+
+          <!-- ZONAS CLICKEABLES -->
+          <div class="zona-click nariz"
+            onclick="abrirModal('Nariz')">
+          </div>
+
+          <div class="zona-click fuselaje"
+            onclick="abrirModal('Fuselaje')">
+          </div>
+
+          <div class="zona-click ala-izq"
+            onclick="abrirModal('Ala Izq.')">
+          </div>
+
+          <div class="zona-click ala-der"
+            onclick="abrirModal('Ala Der.')">
+          </div>
+
+          <div class="zona-click cola"
+            onclick="abrirModal('Cola')">
+          </div>
+
+          <div class="zona-click motor"
+            onclick="abrirModal('Motor')">
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- DERECHA -->
+      <aside class="right-panel">
+
+        <h2>REGISTRO DE DAÑOS</h2>
+
+        <div id="listaDanios" class="lista-danios">
+          Sin daños registrados
+        </div>
+
+        <h2>DOCUMENTOS TÉCNICOS</h2>
+
+        <input type="file" id="documentoInput">
+
+        <div id="listaDocs" class="docs-list">
+        </div>
+
+        <button class="pdf-btn"
+          onclick="generarPDF()">
+          GENERAR PDF
+        </button>
+
+      </aside>
+
+    </main>
+
+  </div>
+
+  <!-- MODAL -->
+  <div id="modal" class="modal hidden">
+
+    <div class="modal-box">
+
+      <h2>REGISTRAR DAÑO</h2>
+
+      <p id="zonaSeleccionada"></p>
+
+      <input type="text"
+        id="tamano"
+        placeholder="Tamaño estimado">
+
+      <textarea id="notas"
+        placeholder="Notas"></textarea>
+
+      <div class="modal-buttons">
+
+        <button onclick="cerrarModal()">
+          CANCELAR
+        </button>
+
+        <button onclick="guardarDanio()">
+          GUARDAR
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
