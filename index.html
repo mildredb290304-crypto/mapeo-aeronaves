@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AeroScan</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+    <!-- ========================= -->
+    <!-- PANTALLA INICIAL -->
+    <!-- ========================= -->
+
+    <div id="pantallaInicio" class="inicio-container">
+
+        <div class="inicio-box">
+
+            <h1>AeroScan</h1>
+
+            <label>Matrícula</label>
+            <input type="text" id="matricula">
+
+            <label>Fecha de revisión</label>
+            <input type="date" id="fecha">
+
+            <label>Tipo de aeronave</label>
+            <input type="text" id="tipoAeronave">
+
+            <button onclick="iniciarInspeccion()">
+                INICIAR INSPECCIÓN
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- APP PRINCIPAL -->
+    <!-- ========================= -->
+
+    <div id="appPrincipal" style="display:none;">
+
+        <!-- MENU SUPERIOR -->
+
+        <header class="topbar">
+
+            <h1>AeroScan</h1>
+
+            <div class="tabs">
+
+                <button class="vista-btn activo"
+                    id="btn-superior"
+                    onclick="cambiarVista('superior')">
+                    SUPERIOR
+                </button>
+
+                <button class="vista-btn"
+                    id="btn-perfil"
+                    onclick="cambiarVista('perfil')">
+                    PERFIL
+                </button>
+
+                <button class="vista-btn"
+                    id="btn-frontal"
+                    onclick="cambiarVista('frontal')">
+                    FRONTAL
+                </button>
+
+                <button class="vista-btn"
+                    id="btn-trasera"
+                    onclick="cambiarVista('trasera')">
+                    TRASERA
+                </button>
+
+            </div>
+
+        </header>
+
+        <!-- CONTENIDO -->
+
+        <div class="contenedor">
+
+            <!-- PANEL IZQUIERDO -->
+
+            <aside class="sidebar">
+
+                <h2>TIPO DE DAÑO</h2>
+
+                <div class="grid-botones">
+
+                    <button class="danio-btn"
+                        onclick="seleccionarDanio(this,'Grieta')">
+                        GRIETA
+                    </button>
+
+                    <button class="danio-btn"
+                        onclick="seleccionarDanio(this,'Abolladura')">
+                        ABOLLADURA
+                    </button>
+
+                    <button class="danio-btn"
+                        onclick="seleccionarDanio(this,'Corrosión')">
+                        CORROSIÓN
+                    </button>
+
+                    <button class="danio-btn"
+                        onclick="seleccionarDanio(this,'Fractura')">
+                        FRACTURA
+                    </button>
+
+                </div>
+
+                <h2>SEVERIDAD</h2>
+
+                <div class="grid-botones">
+
+                    <button class="sev-btn"
+                        onclick="seleccionarSeveridad(this,'Leve')">
+                        LEVE
+                    </button>
+
+                    <button class="sev-btn"
+                        onclick="seleccionarSeveridad(this,'Moderado')">
+                        MODERADO
+                    </button>
+
+                    <button class="sev-btn"
+                        onclick="seleccionarSeveridad(this,'Severo')">
+                        SEVERO
+                    </button>
+
+                    <button class="sev-btn"
+                        onclick="seleccionarSeveridad(this,'Crítico')">
+                        CRÍTICO
+                    </button>
+
+                </div>
+
+                <h2>ZONAS</h2>
+
+                <div class="zonas">
+
+                    <div>Fuselaje <span id="countFuselaje">0</span></div>
+
+                    <div>Ala Izquierda <span id="countAlaIzq">0</span></div>
+
+                    <div>Ala Derecha <span id="countAlaDer">0</span></div>
+
+                    <div>Nariz <span id="countNariz">0</span></div>
+
+                    <div>Empenaje <span id="countEmpenaje">0</span></div>
+
+                    <div>Motores <span id="countMotores">0</span></div>
+
+                    <div>Tren de aterrizaje <span id="countTren">0</span></div>
+
+                </div>
+
+            </aside>
+
+            <!-- CENTRO -->
+
+            <main class="visor">
+
+                <img
+                    id="imagenAvion"
+                    src="superior.png"
+                    onclick="registrarClick()"
+                >
+
+            </main>
+
+            <!-- PANEL DERECHO -->
+
+            <aside class="reportes">
+
+                <h2>REPORTES</h2>
+
+                <div id="listaReportes"></div>
+
+                <button onclick="generarPDF()">
+                    GENERAR PDF
+                </button>
+
+            </aside>
+
+        </div>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- MODAL -->
+    <!-- ========================= -->
+
+    <div id="modalDanio" class="modal">
+
+        <div class="modal-box">
+
+            <h2>Registrar Daño</h2>
+
+            <select id="zona">
+
+                <option value="">Seleccionar zona</option>
+
+                <option>Fuselaje</option>
+
+                <option>Ala Izquierda</option>
+
+                <option>Ala Derecha</option>
+
+                <option>Nariz</option>
+
+                <option>Empenaje</option>
+
+                <option>Motores</option>
+
+                <option>Tren de aterrizaje</option>
+
+            </select>
+
+            <input
+                type="text"
+                id="tamano"
+                placeholder="Tamaño estimado"
+            >
+
+            <textarea
+                id="notas"
+                placeholder="Notas"
+            ></textarea>
+
+            <div class="modal-botones">
+
+                <button onclick="cerrarModal()">
+                    CANCELAR
+                </button>
+
+                <button onclick="guardarDanio()">
+                    GUARDAR
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
